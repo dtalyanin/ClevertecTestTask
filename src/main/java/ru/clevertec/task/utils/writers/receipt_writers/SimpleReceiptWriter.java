@@ -1,13 +1,12 @@
-package ru.clevertec.task.services.writers.receipt_writers;
-
+package ru.clevertec.task.utils.writers.receipt_writers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.clevertec.task.models.Receipt;
 import ru.clevertec.task.models.Item;
-import ru.clevertec.task.services.writers.file_items.AlignFormatter;
-import ru.clevertec.task.services.writers.file_items.Column;
-import ru.clevertec.task.services.writers.file_items.Row;
-import ru.clevertec.task.services.writers.item_writers.ItemWriter;
+import ru.clevertec.task.utils.writers.file_items.AlignFormatter;
+import ru.clevertec.task.utils.writers.file_items.Column;
+import ru.clevertec.task.utils.writers.file_items.Row;
+import ru.clevertec.task.utils.writers.item_writers.ItemWriter;
 import ru.clevertec.task.utils.factories.ItemWriterFactory;
 import ru.clevertec.task.utils.DateHelper;
 import ru.clevertec.task.utils.PriceHelper;

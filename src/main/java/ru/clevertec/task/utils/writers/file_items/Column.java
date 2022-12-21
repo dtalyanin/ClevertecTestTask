@@ -1,4 +1,4 @@
-package ru.clevertec.task.services.writers.file_items;
+package ru.clevertec.task.utils.writers.file_items;
 
 public record Column(String value, int maxLength, AlignFormatter alignFormatter) {
     @Override

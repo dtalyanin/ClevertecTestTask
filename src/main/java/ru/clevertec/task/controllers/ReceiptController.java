@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.clevertec.task.models.Receipt;
 import ru.clevertec.task.models.OrderDTO;
 import ru.clevertec.task.services.ReceiptService;
-import ru.clevertec.task.services.writers.ReceiptFileWriter;
+import ru.clevertec.task.services.ReceiptFileWriter;
 import ru.clevertec.task.utils.DateHelper;
 import ru.clevertec.task.utils.mappers.OrderDTOMapper;
 import ru.clevertec.task.utils.OrderValidator;
@@ -39,17 +39,16 @@ public class ReceiptController {
     }
 
     @GetMapping(value = "/receipt")
-    public ResponseEntity<?> getCheck(@RequestHeader("Accept") String header,
-            @RequestParam @NotEmpty(message = "Request must contain at least one product.")
+    public ResponseEntity<?> getReceipt(@RequestHeader(value = "Accept", required = false) String header,
+                                        @RequestParam @NotEmpty(message = "Request must contain at least one product.")
                           Map<String, String> params) {
         OrderDTO dto = orderDTOMapper.convertMapToOrderDTO(params);
         validator.validate(dto);
         Receipt receipt = service.getReceiptFromDTO(dto);
-
         String fileName = "receipt_" + DateHelper.getReceiptDateTime(receipt.time()) + ".txt";
         byte[] data = writer.writeReceipt(receipt, fileName);
 
-        if (header.equals(MediaType.TEXT_PLAIN_VALUE)) {
+        if (header != null && header.equals(MediaType.TEXT_PLAIN_VALUE)) {
             HttpHeaders responseHeader = new HttpHeaders();
             responseHeader.setContentType(MediaType.TEXT_PLAIN);
             responseHeader.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);

@@ -31,7 +31,7 @@ public class OrderDTOMapper {
         try {
             return Integer.parseInt(strValue);
         } catch (NumberFormatException e) {
-            throw new OrderParamException("Invalid value for number: ", strValue);
+            throw new OrderParamException("Invalid value for number", strValue);
         }
     }
 }

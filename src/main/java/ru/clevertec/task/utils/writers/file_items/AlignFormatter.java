@@ -1,4 +1,6 @@
-package ru.clevertec.task.services.writers.file_items;
+package ru.clevertec.task.utils.writers.file_items;
+
+import ru.clevertec.task.exceptions.FileWritingException;
 
 public enum AlignFormatter {
     CENTER {
@@ -29,7 +31,7 @@ public enum AlignFormatter {
 
     public String getAlignedString(String value, int resultLength) {
         if (resultLength < 1) {
-            throw new IllegalArgumentException("Неверно задан размер: " + resultLength);
+            throw new FileWritingException("Wrong length for new string: " + resultLength);
         }
         String alignedValue;
         if (value.length() == resultLength) {

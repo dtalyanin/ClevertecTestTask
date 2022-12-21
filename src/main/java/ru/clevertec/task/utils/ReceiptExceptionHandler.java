@@ -1,4 +1,4 @@
-package ru.clevertec.task.controllers;
+package ru.clevertec.task.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import javax.validation.ConstraintViolationException;
 import java.sql.SQLException;
 
 @ControllerAdvice
-public class ExceptionController {
+public class ReceiptExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> findValidationExceptionInParameters(ConstraintViolationException e) {
         ConstraintViolation<?> constraintViolation = e.getConstraintViolations().iterator().next();
