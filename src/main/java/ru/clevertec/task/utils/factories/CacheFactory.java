@@ -26,6 +26,9 @@ public class CacheFactory {
     }
 
     public Cache<Product> getCacheImplementation() {
+        if (cacheChoice == null) {
+            throw new IllegalArgumentException("No value for cache implementation");
+        }
         Cache<Product> cache = caches.get(cacheChoice.toUpperCase());
         if (cache == null) {
             throw new IllegalArgumentException("Wrong value for cache implementation: " + cacheChoice);
