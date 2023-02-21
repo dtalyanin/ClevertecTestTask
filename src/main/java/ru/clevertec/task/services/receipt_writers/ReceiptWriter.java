@@ -1,4 +1,4 @@
-package ru.clevertec.task.utils.writers.receipt_writers;
+package ru.clevertec.task.services.receipt_writers;
 
 public interface ReceiptWriter {
     void writeHeader();

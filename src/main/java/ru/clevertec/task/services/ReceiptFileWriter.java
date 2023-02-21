@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.clevertec.task.exceptions.FileWritingException;
 import ru.clevertec.task.models.Receipt;
 import ru.clevertec.task.utils.factories.ReceiptWriterFactory;
-import ru.clevertec.task.utils.writers.receipt_writers.ReceiptWriter;
+import ru.clevertec.task.services.receipt_writers.ReceiptWriter;
 
 import java.io.*;
 

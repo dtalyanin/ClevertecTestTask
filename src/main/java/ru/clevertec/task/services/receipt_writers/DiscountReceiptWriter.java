@@ -1,4 +1,4 @@
-package ru.clevertec.task.utils.writers.receipt_writers;
+package ru.clevertec.task.services.receipt_writers;
 
 import ru.clevertec.task.models.Receipt;
 import ru.clevertec.task.utils.factories.ItemWriterFactory;

@@ -19,6 +19,6 @@ public class PriceSerializer extends StdSerializer<Integer> {
 
     @Override
     public void serialize(Integer value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-        gen.writeNumber(PriceHelper.getPriceAsDouble(value));
+        gen.writeNumber(PriceHelper.getPriceRepresentation(value));
     }
 }

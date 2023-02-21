@@ -1,12 +1,12 @@
-package ru.clevertec.task.utils.writers.receipt_writers;
+package ru.clevertec.task.services.receipt_writers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.clevertec.task.models.Receipt;
 import ru.clevertec.task.models.Item;
-import ru.clevertec.task.utils.writers.file_items.AlignFormatter;
-import ru.clevertec.task.utils.writers.file_items.Column;
-import ru.clevertec.task.utils.writers.file_items.Row;
-import ru.clevertec.task.utils.writers.item_writers.ItemWriter;
+import ru.clevertec.task.utils.AlignFormatter;
+import ru.clevertec.task.models.file_items.Column;
+import ru.clevertec.task.models.file_items.Row;
+import ru.clevertec.task.services.item_writers.ItemWriter;
 import ru.clevertec.task.utils.factories.ItemWriterFactory;
 import ru.clevertec.task.utils.DateHelper;
 import ru.clevertec.task.utils.PriceHelper;
@@ -66,17 +66,12 @@ public class SimpleReceiptWriter implements ReceiptWriter {
     }
 
     protected void writeTwoColumnsInRowWithEdgeAlign(String leftValue, String rightValue) {
-        writeTwoColumnsInRow(AlignFormatter.LEFT, leftValue, AlignFormatter.RIGHT, rightValue);
-    }
-
-    protected void writeTwoColumnsInRow(AlignFormatter leftColumnAlign, String leftValue,
-                                      AlignFormatter rightColumnAlign, String rightValue) {
         String columnDelimiter = mainRow.delimiter();
         int leftLength = (maxRowLength - columnDelimiter.length()) / 2;
         int rightLength = maxRowLength - leftLength - columnDelimiter.length();
         Row row = new Row(Arrays.asList(
-                new Column(leftValue, leftLength, leftColumnAlign),
-                new Column(rightValue, rightLength, rightColumnAlign)),
+                new Column(leftValue, leftLength, AlignFormatter.LEFT),
+                new Column(rightValue, rightLength, AlignFormatter.RIGHT)),
                 columnDelimiter);
         writer.println(row);
     }

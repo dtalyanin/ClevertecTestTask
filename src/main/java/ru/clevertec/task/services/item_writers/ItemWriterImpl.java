@@ -1,10 +1,10 @@
-package ru.clevertec.task.utils.writers.item_writers;
+package ru.clevertec.task.services.item_writers;
 
 import ru.clevertec.task.exceptions.FileWritingException;
 import ru.clevertec.task.models.Item;
-import ru.clevertec.task.utils.writers.file_items.AlignFormatter;
-import ru.clevertec.task.utils.writers.file_items.Column;
-import ru.clevertec.task.utils.writers.file_items.Row;
+import ru.clevertec.task.utils.AlignFormatter;
+import ru.clevertec.task.models.file_items.Column;
+import ru.clevertec.task.models.file_items.Row;
 import ru.clevertec.task.utils.PriceHelper;
 
 import java.io.PrintWriter;
@@ -40,6 +40,10 @@ public class ItemWriterImpl implements ItemWriter {
     @Override
     public Row getRow(List<String> columnValues) {
         List<Column> mainColumns = mainRow.columns();
+        if (mainColumns.size() != columnValues.size()) {
+            throw new FileWritingException("Expected columns amount: " + mainColumns.size() +
+                    ", actual: " + columnValues.size());
+        }
         List<Column> itemColumns = new ArrayList<>();
         for (int i = 0; i < columnValues.size(); i++) {
             String value = columnValues.get(i);

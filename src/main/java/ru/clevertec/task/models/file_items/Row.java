@@ -1,4 +1,4 @@
-package ru.clevertec.task.utils.writers.file_items;
+package ru.clevertec.task.models.file_items;
 
 import java.util.List;
 import java.util.stream.Collectors;

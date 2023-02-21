@@ -1,7 +1,7 @@
-package ru.clevertec.task.utils.writers.item_writers;
+package ru.clevertec.task.services.item_writers;
 
 import ru.clevertec.task.models.Item;
-import ru.clevertec.task.utils.writers.file_items.Row;
+import ru.clevertec.task.models.file_items.Row;
 import ru.clevertec.task.utils.PriceHelper;
 
 import java.io.PrintWriter;
