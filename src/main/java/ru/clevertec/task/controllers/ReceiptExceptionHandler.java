@@ -1,4 +1,4 @@
-package ru.clevertec.task.utils;
+package ru.clevertec.task.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

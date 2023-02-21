@@ -1,4 +1,4 @@
-package ru.clevertec.task.utils.writers.file_items;
+package ru.clevertec.task.utils;
 
 import ru.clevertec.task.exceptions.FileWritingException;
 

@@ -12,8 +12,4 @@ public class PriceHelper {
         int coins = price % COINS_AMOUNT;
         return String.format("%d.%02d", rubles, coins);
     }
-
-    public static double getPriceAsDouble(int price) {
-        return price / (COINS_AMOUNT * 1.0);
-    }
 }

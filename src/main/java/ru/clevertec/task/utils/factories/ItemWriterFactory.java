@@ -2,10 +2,10 @@ package ru.clevertec.task.utils.factories;
 
 import org.springframework.stereotype.Component;
 import ru.clevertec.task.models.Item;
-import ru.clevertec.task.utils.writers.item_writers.ItemWriter;
-import ru.clevertec.task.utils.writers.item_writers.ItemWriterDecorator;
-import ru.clevertec.task.utils.writers.item_writers.ItemWriterImpl;
-import ru.clevertec.task.utils.writers.file_items.Row;
+import ru.clevertec.task.services.item_writers.ItemWriter;
+import ru.clevertec.task.services.item_writers.ItemWriterDecorator;
+import ru.clevertec.task.services.item_writers.ItemWriterImpl;
+import ru.clevertec.task.models.file_items.Row;
 
 @Component
 public class ItemWriterFactory {

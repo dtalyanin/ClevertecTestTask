@@ -1,4 +1,6 @@
-package ru.clevertec.task.utils.writers.file_items;
+package ru.clevertec.task.models.file_items;
+
+import ru.clevertec.task.utils.AlignFormatter;
 
 public record Column(String value, int maxLength, AlignFormatter alignFormatter) {
     @Override
