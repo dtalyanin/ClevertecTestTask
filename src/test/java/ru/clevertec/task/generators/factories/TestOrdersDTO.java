@@ -10,11 +10,11 @@ public class TestOrdersDTO {
     }
 
     public static OrderDTO orderWithoutDiscount() {
-        return TestOrderDTOBuilder.anOrder().OrderedProduct(1, 1).build();
+        return TestOrderDTOBuilder.anOrder().OrderedProduct(1, 10).build();
     }
 
     public static OrderDTO orderWithDiscount() {
-        return TestOrderDTOBuilder.anOrder().OrderedProduct(1, 1).discount(1234).build();
+        return TestOrderDTOBuilder.anOrder().OrderedProduct(1, 10).discount(1234).build();
     }
 
     public static OrderDTO orderWithOnlyDiscount() {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.clevertec.task.generators.factories.TestColumns;
 import ru.clevertec.task.generators.factories.TestItems;
+import ru.clevertec.task.generators.factories.TestReceipts;
 import ru.clevertec.task.generators.factories.TestRows;
 import ru.clevertec.task.models.Item;
 import ru.clevertec.task.models.Receipt;
@@ -23,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static ru.clevertec.task.generators.factories.TestItems.*;
+import static ru.clevertec.task.generators.factories.TestReceipts.*;
 
 @SpringBootTest
 class SimpleReceiptWriterTest {
@@ -31,23 +34,16 @@ class SimpleReceiptWriterTest {
     @Captor
     private ArgumentCaptor<Column> columnCaptor;
     @Captor
-    private ArgumentCaptor<Item> itemCaptor;
-    @Captor
     private ArgumentCaptor<String> strCaptor;
     @Mock
     private PrintWriter printWriter;
     @Spy
-    ItemWriterFactory factory;
-    private Receipt receipt;
+    private ItemWriterFactory factory;
     private SimpleReceiptWriter receiptWriter;
 
     @BeforeEach
     void setUp() {
-        receipt = Receipt.builder()
-                .item(TestItems.getItemWithoutDiscount())
-                .dateTime(LocalDateTime.of(2022, 2, 22, 06, 0 ,0))
-                .build();
-        receiptWriter = new SimpleReceiptWriter(receipt, printWriter, factory);
+        receiptWriter = new SimpleReceiptWriter(getSimpleReceipt(), printWriter, factory);
     }
 
     @Test
@@ -80,13 +76,13 @@ class SimpleReceiptWriterTest {
 
     @Test
     void checkWriteItemsShouldWriteWithDiscount() {
-        //set item with discount
-        receiptWriter.receipt.items().set(0, TestItems.getPromotionalItemWithDiscount());
+        //add item with discount
+        receiptWriter.receipt.items().add(getPromotionalItemWithDiscount());
 
         receiptWriter.writeItems();
-        verify(printWriter, times(2)).println(rowCaptor.capture());
-        verify(factory, times(1)).getItemWriter(any(Item.class), any(Row.class));
-        List<Row> expected = List.of(TestRows.getSimpleRow(), TestRows.getDiscountRow());
+        verify(printWriter, times(3)).println(rowCaptor.capture());
+        verify(factory, times(2)).getItemWriter(any(Item.class), any(Row.class));
+        List<Row> expected = List.of(TestRows.getSimpleRow(), TestRows.getSimpleRow(), TestRows.getDiscountRow());
         List<Row> actual = rowCaptor.getAllValues();
         assertEquals(expected, actual);
     }

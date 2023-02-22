@@ -63,4 +63,25 @@ public class TestRows {
                 .column(getTotalPriceForReceipt())
                 .build();
     }
+
+    public static Row getSubtotalPriceRow() {
+        return TestRowBuilder.aRow()
+                .column(getSubtotalColumnForReceipt())
+                .column(getTotalPriceForReceipt())
+                .build();
+    }
+
+    public static Row getCardDiscountRow() {
+        return TestRowBuilder.aRow()
+                .column(getCardDiscountDescription())
+                .column(getCardDiscount())
+                .build();
+    }
+
+    public static Row getTotalPriceWithDiscountCardRow() {
+        return TestRowBuilder.aRow()
+                .column(getTotalColumnForReceipt())
+                .column(getTotalPriceForReceiptWithDiscountCard())
+                .build();
+    }
 }

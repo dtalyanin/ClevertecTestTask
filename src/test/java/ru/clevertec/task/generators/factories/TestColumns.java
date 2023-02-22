@@ -99,4 +99,20 @@ public class TestColumns {
     public static Column getTotalPriceForReceipt() {
         return new Column("10.00", 25, AlignFormatter.RIGHT);
     }
+
+    public static Column getSubtotalColumnForReceipt() {
+        return new Column("SUBTOTAL", 24, AlignFormatter.LEFT);
+    }
+
+    public static Column getCardDiscountDescription() {
+        return new Column("CARD DISCOUNT, 10%", 24, AlignFormatter.LEFT);
+    }
+
+    public static Column getCardDiscount() {
+        return new Column("-1.00", 25, AlignFormatter.RIGHT);
+    }
+
+    public static Column getTotalPriceForReceiptWithDiscountCard() {
+        return new Column("9.00", 25, AlignFormatter.RIGHT);
+    }
 }

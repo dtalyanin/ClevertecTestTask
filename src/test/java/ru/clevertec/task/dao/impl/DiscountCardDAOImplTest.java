@@ -1,6 +1,8 @@
 package ru.clevertec.task.dao.impl;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,18 +18,28 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class DiscountCardDAOImplTest {
+    @Captor
+    private ArgumentCaptor<Integer> intCaptor;
     @Mock
     private JdbcTemplate template;
     @InjectMocks
     private DiscountCardDAOImpl discountCardDAO;
 
     @Test
-    void getDiscountCardById() {
-        DiscountCard card = new DiscountCard(1234, 10);
-        when(template.queryForObject(anyString(), any(BeanPropertyRowMapper.class), eq(1234))).thenReturn(card);
-        when(template.queryForObject(anyString(), any(BeanPropertyRowMapper.class), eq(1235)))
+    void checkGetDiscountCardByIdShouldReturnCard() {
+        DiscountCard expected = new DiscountCard(1234, 10);
+        int expectedId = 1234;
+        when(template.queryForObject(anyString(), any(BeanPropertyRowMapper.class), intCaptor.capture()))
+                .thenReturn(expected);
+        assertEquals(expected, discountCardDAO.getDiscountCardById(1234));
+        int actualId = intCaptor.getValue();
+        assertEquals(expectedId, actualId);
+    }
+
+    @Test
+    void checkGetDiscountCardByIdShouldShouldThrowExceptionNoDiscountCard() {
+        when(template.queryForObject(anyString(), any(BeanPropertyRowMapper.class), anyInt()))
                 .thenThrow(new EmptyResultDataAccessException(1));
-        assertEquals(card, discountCardDAO.getDiscountCardById(1234));
         OrderItemNotFoundException exception = assertThrows(OrderItemNotFoundException.class,
                 () -> discountCardDAO.getDiscountCardById(1235));
         String expectedMessage = "Discount card with this number not found";

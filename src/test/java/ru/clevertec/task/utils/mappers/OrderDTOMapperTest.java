@@ -28,7 +28,7 @@ class OrderDTOMapperTest {
 
     @Test
     void checkConvertMapToOrderDTOShouldCreateDTOWithOnlyItems() {
-        params.put("item1", "1");
+        params.put("item1", "10");
         OrderDTO expected = TestOrdersDTO.orderWithoutDiscount();
         OrderDTO actual = mapper.convertMapToOrderDTO(params);
         assertEquals(expected, actual);
@@ -36,7 +36,7 @@ class OrderDTOMapperTest {
 
     @Test
     void checkConvertMapToOrderDTOShouldCreateDTOWithItemsAndDiscount() {
-        params.put("item1", "1");
+        params.put("item1", "10");
         params.put("card", "1234");
         OrderDTO expected = TestOrdersDTO.orderWithDiscount();
         OrderDTO actual = mapper.convertMapToOrderDTO(params);
