@@ -2,6 +2,8 @@ package ru.clevertec.task.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.clevertec.task.exceptions.FileWritingException;
@@ -44,5 +46,14 @@ public class ReceiptExceptionHandler {
     public ResponseEntity<ErrorResponse> findProblemWithDatabase(SQLException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> findValidationExceptionInParameters(MethodArgumentNotValidException e) {
+        FieldError error = e.getFieldError();
+        String message = String.format("%s for field '%s' and value '%s'", error.getDefaultMessage(),
+                error.getField(), error.getRejectedValue());
+        ErrorResponse errorResponse = new ErrorResponse(message);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
