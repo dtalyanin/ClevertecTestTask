@@ -3,7 +3,6 @@ package ru.clevertec.task.utils.json;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class FieldHelper {
     public static boolean isPrimitiveOrEnum(Class<?> checkedClass) {
@@ -11,7 +10,7 @@ public class FieldHelper {
             return true;
         }
         List<Class<?>> classes = List.of(Boolean.class, Character.class, Float.class,
-                Integer.class, Logger.class, Short.class, Double.class);
+                Integer.class, Long.class, Short.class, Double.class, Byte.class);
         return classes.contains(checkedClass);
     }
 
@@ -20,15 +19,19 @@ public class FieldHelper {
     }
 
     public static boolean isCollection(Class<?> chekedClass) {
-        boolean isCollection = false;
-        while (!isCollection && chekedClass != null) {
-            isCollection = List.of(chekedClass.getInterfaces()).contains(Collection.class);
-            chekedClass = chekedClass.getSuperclass();
-        }
-        return isCollection;
+        return checkIsImplementClass(chekedClass, Collection.class);
     }
 
     public static boolean isMap(Class<?> checkedClass) {
-        return checkedClass == Map.class || List.of(checkedClass.getInterfaces()).contains(Map.class);
+        return checkIsImplementClass(checkedClass, Map.class);
+    }
+
+    private static boolean checkIsImplementClass(Class<?> chekedClass, Class<?> mustImplClass) {
+        boolean containt = chekedClass == mustImplClass;
+        while (!containt && chekedClass != null) {
+            containt = List.of(chekedClass.getInterfaces()).contains(mustImplClass);
+            chekedClass = chekedClass.getSuperclass();
+        }
+        return containt;
     }
 }
