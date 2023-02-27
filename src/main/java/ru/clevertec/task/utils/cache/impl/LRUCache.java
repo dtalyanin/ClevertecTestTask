@@ -30,6 +30,12 @@ public class LRUCache<T> implements Cache<T> {
         tail.prev = head;
     }
 
+    /**
+     * Get value with the specified ID from cache if exist or else return null
+     *
+     * @param key value ID to search
+     * @return value - if a value with the specified ID exists or else null
+     */
     @Override
     public T get(int key) {
         Node<T> current = elements.get(key);
@@ -41,6 +47,12 @@ public class LRUCache<T> implements Cache<T> {
         return value;
     }
 
+    /**
+     * Put value in cache with the specified ID
+     *
+     * @param key   value ID to add
+     * @param value value to add
+     */
     @Override
     public void put(int key, T value) {
         if (elements.containsKey(key)) {
@@ -58,6 +70,11 @@ public class LRUCache<T> implements Cache<T> {
         }
     }
 
+    /**
+     * Delete value from cache with the specified ID
+     *
+     * @param key value ID to delete
+     */
     @Override
     public void delete(int key) {
         Node<T> removed = elements.remove(key);
@@ -66,6 +83,11 @@ public class LRUCache<T> implements Cache<T> {
         }
     }
 
+    /**
+     * Add node to the head of queue
+     *
+     * @param node node to move
+     */
     private void addToHead(Node<T> node) {
         node.next = head.next;
         node.prev = head;
@@ -74,17 +96,31 @@ public class LRUCache<T> implements Cache<T> {
         head.next = node;
     }
 
+    /**
+     * Change node position to the head of queue
+     *
+     * @param node node to move
+     */
     private void moveToHead(Node<T> node) {
         remove(node);
         addToHead(node);
     }
 
-
+    /**
+     * Remove the specified node and change links of neighboring nodes
+     *
+     * @param node node to remove
+     */
     private void remove(Node<T> node) {
         node.next.prev = node.prev;
         node.prev.next = node.next;
     }
 
+    /**
+     * Cache element that stores ID, value, previous ana next element in cache
+     *
+     * @param <T> type that node should work with
+     */
     private static class Node<T> {
         int key;
         T value;

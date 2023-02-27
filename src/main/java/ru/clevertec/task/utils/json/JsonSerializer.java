@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Class for creating JSON string from object
+ */
 public class JsonSerializer {
     private static final String LEFT_BRACE = "{";
     private static final String RIGHT_BRACE = "}";
@@ -21,10 +24,23 @@ public class JsonSerializer {
     private static final String LEFT_BRACKET = "[";
     private static final String RIGHT_BRACKET = "]";
 
+    /**
+     * Create JSON string from object
+     *
+     * @param object object to parse
+     * @return JSON string
+     */
     public String getJsonFromObject(Object object) {
         return LEFT_BRACE + getStrObject(object, object.getClass()) + RIGHT_BRACE;
     }
 
+    /**
+     * Create object string representation
+     *
+     * @param object object to parse
+     * @param oClass class of the specified object
+     * @return object string representation
+     */
     private String getStrObject(Object object, Class<?> oClass) {
         Class<?> sClass = oClass.getSuperclass();
         StringBuilder strObject = new StringBuilder();
@@ -40,7 +56,13 @@ public class JsonSerializer {
                 .collect(Collectors.joining(COMMA))).toString();
     }
 
-
+    /**
+     * Create field string representation
+     *
+     * @param field  field to parse
+     * @param object object to parse
+     * @return field string representation
+     */
     private StringBuilder getStrField(Field field, Object object) {
         try {
             return getStrFieldAsKeyValue(field.getName(), field.get(object));
@@ -49,13 +71,26 @@ public class JsonSerializer {
         }
     }
 
-    private StringBuilder getStrFieldAsKeyValue(String key, Object value) {
+    /**
+     * Create field string representation as field name and field value
+     *
+     * @param name  field name
+     * @param value field value to parse
+     * @return field string representation
+     */
+    private StringBuilder getStrFieldAsKeyValue(String name, Object value) {
         StringBuilder fieldKeyValue = new StringBuilder();
-        fieldKeyValue.append(QUOTE).append(key).append(QUOTE_COLON);
+        fieldKeyValue.append(QUOTE).append(name).append(QUOTE_COLON);
         fieldKeyValue.append(getFieldValueStr(value));
         return fieldKeyValue;
     }
 
+    /**
+     * Create string representation of the field value
+     *
+     * @param value field value
+     * @return field value string representation
+     */
     private StringBuilder getFieldValueStr(Object value) {
         StringBuilder strObject = new StringBuilder();
         if (value != null) {
@@ -83,6 +118,12 @@ public class JsonSerializer {
         return strObject;
     }
 
+    /**
+     * Create collection string representation
+     *
+     * @param object collection to parse
+     * @return collection string representation
+     */
     private StringBuilder getStrCollection(Object object) {
         StringBuilder strCollection = new StringBuilder();
         strCollection.append(LEFT_BRACKET);
@@ -92,6 +133,12 @@ public class JsonSerializer {
         return strCollection;
     }
 
+    /**
+     * Create map string representation
+     *
+     * @param object map to parse
+     * @return map string representation
+     */
     private StringBuilder getStrMap(Object object) {
         StringBuilder strMap = new StringBuilder();
         strMap.append(LEFT_BRACE);

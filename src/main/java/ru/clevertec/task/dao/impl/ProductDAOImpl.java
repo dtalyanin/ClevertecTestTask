@@ -14,6 +14,9 @@ import ru.clevertec.task.models.Product;
 import java.sql.PreparedStatement;
 import java.util.List;
 
+/**
+ * Repository for performing operations with products from the database based on JDBC template
+ */
 @Repository
 public class ProductDAOImpl implements ProductDAO {
     private static final String SELECT_ALL_PRODUCTS = "SELECT * FROM product";
@@ -31,11 +34,20 @@ public class ProductDAOImpl implements ProductDAO {
         this.template = template;
     }
 
+    /**
+     * get all products from the database
+     * @return List of products from the database
+     */
     @Override
     public List<Product> getAllProducts() {
         return template.query(SELECT_ALL_PRODUCTS, new BeanPropertyRowMapper<>(Product.class));
     }
 
+    /**
+     * get product from the database by its ID
+     * @param id product ID to search
+     * @return product with specified id
+     */
     @Override
     public Product getProductById(int id) {
         try {
@@ -45,6 +57,11 @@ public class ProductDAOImpl implements ProductDAO {
         }
     }
 
+    /**
+     * add new product in the database
+     * @param product product to add
+     * @return generated ID for new product
+     */
     @Override
     public int addNewProduct(Product product) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -59,12 +76,23 @@ public class ProductDAOImpl implements ProductDAO {
         return keyHolder.getKey().intValue();
     }
 
+    /**
+     * change product fields with specified ID in the database
+     * @param id product ID to update
+     * @param product product with new values for update
+     * @return  affected rows number
+     */
     @Override
     public int updateProduct(int id, Product product) {
         return template.update(UPDATE_PRODUCT, product.getName(), product.getMeasure(), product.getPrice(),
                 product.isPromotional(), id);
     }
 
+    /**
+     * delete product with specified ID in the database
+     * @param id product ID to delete
+     * @return affected rows number
+     */
     @Override
     public int deleteProductById(int id) {
         return template.update(DELETE_PRODUCT, id);

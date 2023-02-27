@@ -7,6 +7,12 @@ import ru.clevertec.task.utils.cache.Cache;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Least Frequently Used (LFU) cache algorithm that keeps track of the number of times an item has been accessed.
+ * When the cache is full and requires more room the system will purge the item with the lowest reference frequency.
+ *
+ * @param <T> type that cache should work with
+ */
 @Component
 public class LFUCache<T> implements Cache<T> {
 
@@ -30,6 +36,12 @@ public class LFUCache<T> implements Cache<T> {
         tail.prev = head;
     }
 
+    /**
+     * Get value with the specified ID from cache if exist or else return null
+     *
+     * @param key value ID to search
+     * @return value - if a value with the specified ID exists or else null
+     */
     @Override
     public T get(int key) {
         Node<T> current = elements.get(key);
@@ -41,6 +53,12 @@ public class LFUCache<T> implements Cache<T> {
         return value;
     }
 
+    /**
+     * Put value in cache with the specified ID
+     *
+     * @param key   value ID to add
+     * @param value value to add
+     */
     @Override
     public void put(int key, T value) {
         if (elements.containsKey(key)) {
@@ -58,6 +76,11 @@ public class LFUCache<T> implements Cache<T> {
         }
     }
 
+    /**
+     * Delete value from cache with the specified ID
+     *
+     * @param key value ID to delete
+     */
     @Override
     public void delete(int key) {
         Node<T> removed = elements.remove(key);
@@ -66,17 +89,32 @@ public class LFUCache<T> implements Cache<T> {
         }
     }
 
+    /**
+     * Remove the specified node and change links of neighboring nodes
+     *
+     * @param node node to remove
+     */
     private void remove(Node<T> node) {
         node.next.prev = node.prev;
         node.prev.next = node.next;
     }
 
+    /**
+     * Change the specified node position in queue
+     *
+     * @param current node to remove
+     */
     private void changeCurrentPosition(Node<T> current) {
         remove(current);
         current.count++;
         moveByFrequency(current);
     }
 
+    /**
+     * Change the specified node position based on the access frequency
+     *
+     * @param node node to remove
+     */
     private void moveByFrequency(Node<T> node) {
         Node<T> curr = head.next;
         while (curr != null) {
@@ -92,6 +130,11 @@ public class LFUCache<T> implements Cache<T> {
         }
     }
 
+    /**
+     * Cache element that stores ID, value, previous ana next element in cache
+     *
+     * @param <T> type that node should work with
+     */
     private static class Node<T> {
         int key;
         T value;
