@@ -1,11 +1,13 @@
 package ru.clevertec.task.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
+@AllArgsConstructor
 public class OrderDTO {
     private Map<Integer, Integer> orderedProducts;
     private Integer discount;

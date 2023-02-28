@@ -1,12 +1,35 @@
-# Test task solution by Dzmitry Talianin
-* ### Java 17
-* ### Spring Boot 2.7.6
-* ### Gradle 
-* ### BD: PostgreSQL
+## Reflection Home Task
 
-Program generates a variant of the receipt based on the transmitted data. Endpoint is **/receipt** with request parameters:
+1. Создать реализацию кэша, используя алгоритмы LRU и LFU.
+2. Алгоритм и максимальный размер коллекции должны читаться из файла resources/application.yml.
+3. Коллекция должна инициализироваться через фабрику.
+4. Код должен содержать javadoc и описанный README.md.
+5. Кеши должны быть покрыты тестами.
+6. Создать entity, в нем должно быть поле id и еще min 4 поля. Добавить поле, проверяемое regex.
+7. Создать в приложении слои service и dao (service будет вызывать слой dao, слой dao будет временная замена database).
+   В этих сервисах реализовать CRUD операции для работы с entity. Работу организовать через интерфейсы.
+8. Результат работы dao должен синхронизироваться с кешем через proxy (или кастомная аннотация или АОП/ aspectj).
+   При работе с entity оперируем id. Алгоритм работы с кешем:
+    * GET - ищем в кеше и если там данных нет, то достаем объект из dao, сохраняем в кеш и возвращаем
+    * POST - сохраняем в dao и потом сохраняем в кеше
+    * DELETE - удаляем из dao и потом удаляем в кеша
+    * PUT - обновление/вставка в dao и потом обновление/вставка в кеше.
 
-* required: at least one parameter with key - 'item' plus product ID in database, value - quantity (for example item1=10)
-* not required - discount card with key 'card' and value card number (for example card=1234)
+** Реализовать метод для получения информации в формате xml.
 
-Program writes the order data to receipt file. Response depends on the accepted header: if text/plain, then return a **text file** for download. Else return **json**.
+P.S. эти доработки реализовать в тестовом задании "чек".
+
+Реализовано:
+1. Классы **LRUCache** и **LFUCache**, являющиеся реализацией алгоритма кэша, с методами:
+    * ```T get(int key)``` для получения элемента из кэша
+    * ```void put(int key, T value)``` для добавления элемента в кэш
+    * ```void delete(int key)``` для удаления элемента из кэша
+2. Алгоритм и максимальный размер получаются из файла **application.properties** и значений cache.implementation
+   и cache.capacity. Валидные значения: минимальные размер: 1, имплементации: LRU, LFU.
+3. класс **CacheFactory** с методом ```Cache<Product> getCacheImplementation()``` для получения
+   кэша в зависимости от заданным параметров в **application.properties**.
+4. Добавлено описание README.md выполненной работы и javadoc для добавленной функциональности.
+5. Добавлены тесты для имплементаций кэшей.
+6. В качестве entity с проверяемыми значениями используется класс **Product**.
+7. Добавлены сервис **ProductService** для реализации CRUD операций с DAO **ProductDAO**
+8. Синхронизация с кэшом реализовано за счет использования класса **CacheAspect** с применением AOP

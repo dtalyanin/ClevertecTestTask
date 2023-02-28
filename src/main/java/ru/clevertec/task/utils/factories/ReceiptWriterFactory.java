@@ -2,9 +2,9 @@ package ru.clevertec.task.utils.factories;
 
 import org.springframework.stereotype.Component;
 import ru.clevertec.task.models.Receipt;
-import ru.clevertec.task.utils.writers.receipt_writers.DiscountReceiptWriter;
-import ru.clevertec.task.utils.writers.receipt_writers.ReceiptWriter;
-import ru.clevertec.task.utils.writers.receipt_writers.SimpleReceiptWriter;
+import ru.clevertec.task.services.receipt_writers.DiscountReceiptWriter;
+import ru.clevertec.task.services.receipt_writers.ReceiptWriter;
+import ru.clevertec.task.services.receipt_writers.SimpleReceiptWriter;
 
 import java.io.PrintWriter;
 
