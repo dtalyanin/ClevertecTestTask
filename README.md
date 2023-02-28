@@ -1,12 +1,12 @@
-# Test task solution by Dzmitry Talianin
-* ### Java 17
-* ### Spring Boot 2.7.6
-* ### Gradle 
-* ### BD: PostgreSQL
+## String Home Task
 
-Program generates a variant of the receipt based on the transmitted data. Endpoint is **/receipt** with request parameters:
+Разработать библиотеку, которая будет генерировать на основе Java класса json и обратно. Использовать рефлексию.
 
-* required: at least one parameter with key - 'item' plus product ID in database, value - quantity (for example item1=10)
-* not required - discount card with key 'card' and value card number (for example card=1234)
+Реализовано:
 
-Program writes the order data to receipt file. Response depends on the accepted header: if text/plain, then return a **text file** for download. Else return **json**.
+* класс JsonSerializer с единственным **public** методом ```String getJsonFromObject(Object object)```,
+  который на вход принимает **Object** и возвращает строку в формате **JSON**(без пробелов и табуляций)
+
+* JsonDeserializer с единственным **public** методом ```<T> T getObjectFromJson(Class<T> oClass, String jsonStr)```,
+  который на вход принимает объект **Class** и строку в формате **JSON**(без пробелов и табуляций) 
+  и возвращает инициализированный объектв соответствующего класса.

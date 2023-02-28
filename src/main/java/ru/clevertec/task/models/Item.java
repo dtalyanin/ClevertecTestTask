@@ -3,7 +3,6 @@ package ru.clevertec.task.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.EqualsAndHashCode;
 import ru.clevertec.task.utils.serializers.PriceSerializer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
