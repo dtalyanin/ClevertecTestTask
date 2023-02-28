@@ -11,9 +11,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.clevertec.task.generators.TestClass;
 import ru.clevertec.task.generators.factories.TestProducts;
 import ru.clevertec.task.models.DiscountCard;
 import ru.clevertec.task.models.Product;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -47,6 +51,16 @@ class JsonDeserializerTest {
         DiscountCard expected = new DiscountCard(1234, 10);
         String strFromMapper = mapper.writeValueAsString(expected);
         DiscountCard actual = deserializer.getObjectFromJson(DiscountCard.class, strFromMapper);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void checkGetObjectFromJsonShouldWorkCorrectWithTestClass() throws JsonProcessingException {
+        TestClass expected = new TestClass(
+                List.of(TestProducts.getTestProduct(), TestProducts.getTestProduct()),
+                10, LocalDateTime.now(), new DiscountCard(1234, 10), 100, 10, 90);
+        String strFromMapper = mapper.writeValueAsString(expected);
+        TestClass actual = deserializer.getObjectFromJson(TestClass.class, strFromMapper);
         assertEquals(expected, actual);
     }
 }
