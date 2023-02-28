@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import ru.clevertec.task.exceptions.CacheException;
 import ru.clevertec.task.exceptions.FileWritingException;
 import ru.clevertec.task.exceptions.OrderItemNotFoundException;
 import ru.clevertec.task.exceptions.OrderParamException;
@@ -44,5 +45,11 @@ public class ReceiptExceptionHandler {
     public ResponseEntity<ErrorResponse> findProblemWithDatabase(SQLException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(CacheException.class)
+    public ResponseEntity<ErrorResponse> cannotCreateCache(CacheException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_IMPLEMENTED);
     }
 }
