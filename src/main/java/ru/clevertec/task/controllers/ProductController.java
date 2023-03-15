@@ -1,16 +1,19 @@
 package ru.clevertec.task.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import ru.clevertec.task.models.Product;
 import ru.clevertec.task.services.ProductService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -54,9 +57,14 @@ public class ProductController {
      * @param product product to add
      * @return string message of the operation result
      */
-    @PutMapping(value = "/add")
+    @PostMapping
     public ResponseEntity<String> addNewProduct(@RequestBody @Valid Product product) {
-        return new ResponseEntity<>(service.addNewProduct(product), HttpStatus.OK);
+        int generatedId = service.addNewProduct(product);
+        HttpHeaders responseHeader = new HttpHeaders();
+        URI uri = UriComponentsBuilder.fromPath("products/{id}")
+                        .buildAndExpand(generatedId).toUri();
+        responseHeader.setLocation(uri);
+        return new ResponseEntity<>("Adding successful", responseHeader, HttpStatus.CREATED);
     }
 
     /**
@@ -66,7 +74,7 @@ public class ProductController {
      * @param product product with new values for update
      * @return string message of the operation result
      */
-    @PostMapping(value = "/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<String> updateProduct(@PathVariable @Min(value = 1, message = "Min ID value is 1") int id,
                                                 @RequestBody @Valid Product product) {
         return new ResponseEntity<>(service.updateProduct(id, product), HttpStatus.OK);
