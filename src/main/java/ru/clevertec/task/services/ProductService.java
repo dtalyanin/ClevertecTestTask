@@ -44,9 +44,8 @@ public class ProductService {
      * @param product product to add
      * @return string message of the operation result
      */
-    public String addNewProduct(Product product) {
-        dao.addNewProduct(product);
-        return "Adding successful";
+    public int addNewProduct(Product product) {
+        return dao.addNewProduct(product);
     }
 
     /**

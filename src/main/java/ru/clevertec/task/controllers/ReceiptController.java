@@ -21,6 +21,9 @@ import ru.clevertec.task.utils.OrderValidator;
 import javax.validation.constraints.*;
 import java.util.Map;
 
+/**
+ * Controller for performing operations with generating receipts
+ */
 @RestController
 @Validated
 public class ReceiptController {
@@ -38,10 +41,18 @@ public class ReceiptController {
         this.validator = validator;
     }
 
-    @GetMapping(value = "/receipt")
+    /**
+     * Generate receipt from params
+     *
+     * @param header accept header indicates which content type client want to get
+     * @param params map containing pairs of product items and their quantity and discount card and its number
+     *               (not necessary) for generating receipt
+     * @return txt file if the received header is "text/plain" or JSON otherwise
+     */
+    @GetMapping(value = "/receipts")
     public ResponseEntity<?> getReceipt(@RequestHeader(value = "Accept", required = false) String header,
                                         @RequestParam @NotEmpty(message = "Request must contain at least one product.")
-                          Map<String, String> params) {
+                                        Map<String, String> params) {
         OrderDTO dto = orderDTOMapper.convertMapToOrderDTO(params);
         validator.validate(dto);
         Receipt receipt = service.getReceiptFromDTO(dto);
